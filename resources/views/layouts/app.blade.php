@@ -30,7 +30,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item">
+                            <a href="{{ route('warehouses.index') }}" class="nav-link">Sandėliai</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('warehouses.create') }}" class="nav-link">Naujas sandėlys</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -76,5 +81,7 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    @yield("after_jquery")
 </body>
 </html>

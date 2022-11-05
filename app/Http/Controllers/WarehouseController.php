@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,10 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        //
+        $warehouses=Warehouse::all();
+        return view("warehouses.index", [
+            'warehouses'=>$warehouses
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        //
+        return view("warehouses.create");
     }
 
     /**
@@ -35,7 +39,14 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $warehouse=new Warehouse();
+        $warehouse->name=$request->name;
+        $warehouse->city=$request->city;
+        $warehouse->address=$request->address;
+        $warehouse->save();
+
+        return redirect()->route('warehouses.index');
+
     }
 
     /**
@@ -57,7 +68,9 @@ class WarehouseController extends Controller
      */
     public function edit(Warehouse $warehouse)
     {
-        //
+        return view("warehouses.edit", [
+            "warehouse"=>$warehouse
+        ]);
     }
 
     /**
@@ -69,7 +82,12 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, Warehouse $warehouse)
     {
-        //
+        $warehouse->name=$request->name;
+        $warehouse->city=$request->city;
+        $warehouse->address=$request->address;
+        $warehouse->save();
+        return redirect()->route('warehouses.index');
+
     }
 
     /**
@@ -80,6 +98,9 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
-        //
+        $warehouse->delete();
+        return redirect()->route('warehouses.index');
     }
+
+
 }
