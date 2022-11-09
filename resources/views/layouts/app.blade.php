@@ -36,6 +36,12 @@
                         <li class="nav-item">
                             <a href="{{ route('warehouses.create') }}" class="nav-link">Naujas sandėlys</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('products.index') }}" class="nav-link">Produktų sąrašas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('products.create') }}" class="nav-link">Naujas produktas</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

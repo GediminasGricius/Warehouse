@@ -24,6 +24,14 @@
                                     <td>{{ $warehouse->name }}</td>
                                     <td>{{ $warehouse->city }}</td>
                                     <td>{{ $warehouse->address }}</td>
+                                    <td>{{ $warehouse->products->count() }}</td>
+                                    <td>{{ $warehouse->products->sum('quantity') }}</td>
+                                    <td>
+                                        @foreach( $warehouse->products as $product)
+                                            {{ $product->name }} ( {{ $product->quantity }} )
+                                        @endforeach
+                                    </td>
+
                                     <td style="width: 100px;">
                                         <a class="btn btn-success" href="{{ route("warehouses.edit", $warehouse->id) }}" >Redaguoti</a>
                                     </td>
@@ -53,6 +61,6 @@
 
 @section('after_jquery')
     <script>
-      
+
     </script>
 @endsection

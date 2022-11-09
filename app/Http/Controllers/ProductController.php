@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +15,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products=Product::all();
+
+        return view('products.index',[
+            'products'=>$products
+        ]);
     }
 
     /**
@@ -24,7 +29,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $warehouses=Warehouse::all();
+        return view('products.create',[
+            'warehouses'=>$warehouses
+        ]);
     }
 
     /**
@@ -35,7 +43,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product=new Product();
+        $product->name=$request->name;
+        $product->quantity=$request->quantity;
+        $product->warehouse_id=$request->warehouse_id;
+        $product->save();
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -57,7 +71,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $warehouses=Warehouse::all();
+
+        return view('products.edit',[
+            'warehouses'=>$warehouses,
+            'product'=>$product
+            ]);
     }
 
     /**
@@ -69,7 +88,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name=$request->name;
+        $product->quantity=$request->quantity;
+        $product->warehouse_id=$request->warehouse_id;
+        $product->save();
+        return redirect()->route('products.index');
     }
 
     /**
