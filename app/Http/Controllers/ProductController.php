@@ -13,12 +13,36 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products=Product::all();
+        $search=$request->session()->get('product_search',null);
+        $filter_warehouse=$request->session()->get('product_filter_warehouse',null);
+
+        /*
+        if ($search==null && $filter_warehouse==null){
+            $products=Product::all();
+        }else{
+            $products=Product::orderBy('name');
+            if ($search!=null){
+                $products=$products->where('name','like',"%$search%");
+            }
+            if ($filter_warehouse!=null){
+                $products=$products->where('warehouse_id',$filter_warehouse);
+            }
+            $products=$products->get();
+        }
+        */
+
+        $products=Product::search($search)->fromWarehouse($filter_warehouse)->with('warehouse')->get();
+
+        $warehouses=Warehouse::all();
+
 
         return view('products.index',[
-            'products'=>$products
+            'products'=>$products,
+            'warehouses'=>$warehouses,
+            'search'=>$search,
+            'filter_warehouse'=>$filter_warehouse
         ]);
     }
 
@@ -105,5 +129,22 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+
+    public function search(Request $request){
+        $request->session()->put('product_search',$request->search);
+        return redirect()->route('products.index');
+    }
+
+    public function reset(Request $request){
+        $request->session()->put('product_search', null);
+        $request->session()->put('product_filter_warehouse', null);
+        return redirect()->route('products.index');
+    }
+
+    public function filter(Request $request){
+        $request->session()->put('product_filter_warehouse',$request->filter_warehouse);
+        return redirect()->route('products.index');
     }
 }

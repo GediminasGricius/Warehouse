@@ -22,8 +22,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::post('/products/search',[ProductController::class, 'search'])->name('products.search');
+Route::get('/products/search/reset',[ProductController::class, 'reset'])->name('products.search.reset');
+Route::post('/products/filter', [ProductController::class, 'filter'])->name('product.filter');
 
 Route::resource('warehouses', WarehouseController::class);
 Route::resource('products', ProductController::class);
+
 
