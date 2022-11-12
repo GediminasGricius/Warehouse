@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
+    private  $validationRules=[
+        'name'=>['required', 'min:3', 'max:16'],
+        'city'=>['required', 'alpha', 'min:3', 'max:16'],
+        'address'=>['required', 'min:3', 'max:64']
+    ];
+
+    private $validationMessages=[
+        'name.required'=>'Pavadinimas yra privalomas ',
+        'name.min'=>'<b>Pavadinimas</b> turi būti ne trumpesnis nei 3 simboliai',
+        'name.max'=>'Pavadinimas turi būti ne ilgesnis nei 16 simbolių',
+        'city.*'=>'Miestą nurodyti yra privaloma, galimos tik raidės, mažiausia 3 simboliai, daugiausia 16 simbolių'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +52,8 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->validationRules,$this->validationMessages);
+
         $warehouse=new Warehouse();
         $warehouse->name=$request->name;
         $warehouse->city=$request->city;
@@ -82,6 +97,8 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, Warehouse $warehouse)
     {
+        $request->validate($this->validationRules,$this->validationMessages);
+
         $warehouse->name=$request->name;
         $warehouse->city=$request->city;
         $warehouse->address=$request->address;
