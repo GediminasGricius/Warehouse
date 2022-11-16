@@ -5,15 +5,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Sandėlių sąrašas</div>
+                    <div class="card-header">{{ __('warehouses.warehouses_list') }}</div>
                     <div class="card-body">
 
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Pavadinimas</th>
-                                <th>Miestas</th>
-                                <th>Adresas</th>
+                                <th>{{ __('warehouses.name') }}</th>
+                                <th>{{ __('warehouses.city') }}</th>
+                                <th>{{ __('warehouses.address') }}</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -33,14 +33,14 @@
                                     </td>
 
                                     <td style="width: 100px;">
-                                        <a class="btn btn-success" href="{{ route("warehouses.edit", $warehouse->id) }}" >Redaguoti</a>
+                                        <a class="btn btn-success" href="{{ route("warehouses.edit", $warehouse->id) }}" >{{ __('warehouses.edit') }}</a>
                                     </td>
 
                                     <td style="width: 100px;">
                                         <form method="POST" action="{{ route("warehouses.destroy", $warehouse->id) }}">
                                             @csrf
                                             @method("DELETE")
-                                            <button class="btn btn-danger">Ištrinti</button>
+                                            <button class="btn btn-danger">{{ __('warehouses.delete') }}</button>
                                         </form>
                                     </td>
                                 </tr>

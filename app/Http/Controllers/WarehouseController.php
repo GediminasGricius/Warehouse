@@ -10,7 +10,7 @@ class WarehouseController extends Controller
 {
     private  $validationRules=[
         'name'=>['required', 'min:3', 'max:16'],
-        'city'=>['required', 'alpha', 'min:3', 'max:16'],
+        'city'=>['required', 'min:3', 'max:16'],
         'address'=>['required', 'min:3', 'max:64']
     ];
 
@@ -26,8 +26,9 @@ class WarehouseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $warehouses=Warehouse::all();
         return view("warehouses.index", [
             'warehouses'=>$warehouses

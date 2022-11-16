@@ -30,20 +30,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        @if ( Auth::user()!=null )
                         <li class="nav-item">
-                            <a href="{{ route('warehouses.index') }}" class="nav-link">Sandėliai</a>
+                            <a href="{{ route('warehouses.index') }}" class="nav-link">{{ __('Warehouses') }}</a>
                         </li>
+                        @if ( Auth::user()->type=='admin' )
                         <li class="nav-item">
-                            <a href="{{ route('warehouses.create') }}" class="nav-link">Naujas sandėlys</a>
+                            <a href="{{ route('warehouses.create') }}" class="nav-link">{{ __('New warehouse') }}</a>
                         </li>
+                        @endif
                         <li class="nav-item">
-                            <a href="{{ route('products.index') }}" class="nav-link">Produktų sąrašas</a>
+                            <a href="{{ route('products.index') }}" class="nav-link">{{ __('Products') }}</a>
                         </li>
+                        @if ( Auth::user()->type=='admin' )
                         <li class="nav-item">
-                            <a href="{{ route('products.create') }}" class="nav-link">Naujas produktas</a>
+                            <a href="{{ route('products.create') }}" class="nav-link">{{ __('New product') }}</a>
                         </li>
+                        @endif
+                        @endif
                     </ul>
+                    <div class="float-end">
 
+                        <a href="{{ route('setLanguage','lt') }}"  class="{{ \App::getLocale()=='lt'?'fw-bold':'' }}">LT</a> &nbsp; &nbsp;
+                        <a href="{{ route('setLanguage','en') }}"  class="{{ \App::getLocale()=='en'?'fw-bold':'' }}">EN</a>
+
+                    </div>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
@@ -79,6 +90,7 @@
                             </li>
                         @endguest
                     </ul>
+
                 </div>
             </div>
         </nav>
@@ -86,6 +98,9 @@
         <main class="py-4">
             @yield('content')
         </main>
+    </div>
+    <div>
+        Footer: [[address]]
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     @yield("after_jquery")
