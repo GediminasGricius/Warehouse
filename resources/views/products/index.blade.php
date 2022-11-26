@@ -7,6 +7,7 @@
                 <div class="card">
                     <div class="card-header">Sandėlių sąrašas</div>
                     <div class="card-body">
+
                         <form action="{{ route('products.search') }}" method="POST">
                             @csrf
                             <div class="row">
@@ -42,9 +43,11 @@
                             </div>
                         </form>
                         <hr>
+
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>Produkto paveikslas</th>
                                 <th>Pavadinimas</th>
                                 <th>Kiekis</th>
                                 <th>Sandėlys</th>
@@ -55,6 +58,18 @@
                             <tbody>
                             @foreach($products as $product)
                                 <tr>
+                                    <td>
+
+                                        @if ($product->image!=null)
+                                            <div class="mb-2 text-center">
+                                                <img src="{{ route('product.showImage',$product->id) }}" width="100" >
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="{{ route('product.downloadImage',$product->id) }}" class="btn btn-success" >Parsiųsti</a>
+                                            </div>
+                                        @endif
+
+                                    </td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->warehouse->name }}</td>

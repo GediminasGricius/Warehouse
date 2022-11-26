@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -49,7 +50,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response![](../../../../../Users/Gediminas Gricius/Desktop/ss/img_forest.jpg)
      */
     public function create()
     {
@@ -128,7 +129,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if ($product->image){
+            Storage::delete('app/'.$product->image);
+        }
+        $product->delete();
+        return redirect()->route('products.index');
     }
 
 
@@ -147,4 +152,49 @@ class ProductController extends Controller
         $request->session()->put('product_filter_warehouse',$request->filter_warehouse);
         return redirect()->route('products.index');
     }
+
+    public function addImage($id, Request $request){
+        $file=$request->file('image');
+        $imageName=$file->store('products');
+
+        $imageOriginalName=$file->getClientOriginalName();
+        $product=Product::find($id);
+        $product->image=$imageName;
+        $product->image_original=$imageOriginalName;
+        $product->save();
+
+
+        return redirect()->route('products.edit', $product->id);
+    }
+
+    public function showImage($id, Request $request){
+        $product=Product::find($id);
+        if ($product->image){
+            $file=storage_path('app/'.$product->image);
+            return response()->file($file);
+        }
+        return redirect('/');
+    }
+    public function downloadImage($id, Request $request){
+        $product=Product::find($id);
+        if ($product->image){
+            $file=storage_path('app/'.$product->image);
+            return response()->download($file, $product->image_original);
+        }
+        return redirect();
+    }
+
+    public function deleteImage($id, Request $request){
+        $product=Product::find($id);
+        if ($product->image){
+            Storage::delete('app/'.$product->image);
+            $product->image=null;
+            $product->image_original=null;
+            $product->save();
+            return redirect()->route('products.edit',$product->id);
+        }
+        return redirect('/');
+    }
+
+
 }

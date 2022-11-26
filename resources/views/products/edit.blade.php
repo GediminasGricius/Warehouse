@@ -35,6 +35,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">Produkto paveikslas</div>
+                    <div class="card-body">
+                        @if ($product->image==null)
+                        <form method="post" action="{{ route('products.addImage', $product->id) }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label>Produkto paveikslas</label>
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-success">Pridėti</button>
+                        </form>
+                        @else
+                            <div class="mb-2 text-center">
+                                <img src="{{ route('product.showImage',$product->id) }}" width="200" >
+                            </div>
+                            <div class="text-center">
+                                <a href="{{ route('products.deleteImage', $product->id) }}" class="btn btn-danger" >Ištrinti</a>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 
