@@ -33,15 +33,19 @@
                                     </td>
 
                                     <td style="width: 100px;">
-                                        <a class="btn btn-success" href="{{ route("warehouses.edit", $warehouse->id) }}" >{{ __('warehouses.edit') }}</a>
+                                        @can('update-warehouse', $warehouse)
+                                            <a class="btn btn-success" href="{{ route("warehouses.edit", $warehouse->id) }}" >{{ __('warehouses.edit') }}</a>
+                                        @endcan
                                     </td>
 
                                     <td style="width: 100px;">
+                                        @can('delete-warehouse', $warehouse)
                                         <form method="POST" action="{{ route("warehouses.destroy", $warehouse->id) }}">
                                             @csrf
                                             @method("DELETE")
                                             <button class="btn btn-danger">{{ __('warehouses.delete') }}</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

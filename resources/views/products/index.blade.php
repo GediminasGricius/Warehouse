@@ -75,7 +75,9 @@
                                     <td>{{ $product->warehouse->name }}</td>
                                     <td>{{ $product->warehouse->city }}</td>
                                     <td>
-                                        <a href="{{ route('products.edit',$product->id) }}" class="btn btn-success">Redaguoti</a>
+                                        @can('update',$product)
+                                            <a href="{{ route('products.edit',$product->id) }}" class="btn btn-success">Redaguoti</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

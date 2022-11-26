@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -97,6 +102,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+
         $warehouses=Warehouse::all();
 
         return view('products.edit',[

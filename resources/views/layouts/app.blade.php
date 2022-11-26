@@ -34,6 +34,10 @@
                         <li class="nav-item">
                             <a href="{{ route('warehouses.index') }}" class="nav-link">{{ __('Warehouses') }}</a>
                         </li>
+                        <li class="nav-item">
+                                <a href="{{ route('warehouses.all') }}" class="nav-link">{{ __('All warehouses') }}</a>
+                        </li>
+
                         @if ( Auth::user()->type=='admin' )
                         <li class="nav-item">
                             <a href="{{ route('warehouses.create') }}" class="nav-link">{{ __('New warehouse') }}</a>

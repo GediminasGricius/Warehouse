@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class WarehouseController extends Controller
 {
@@ -27,6 +28,15 @@ class WarehouseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
+    {
+
+        $warehouses=Warehouse::myWarehouses()->get();
+        return view("warehouses.index", [
+            'warehouses'=>$warehouses
+        ]);
+    }
+
+    public function all(Request $request)
     {
 
         $warehouses=Warehouse::all();
@@ -84,6 +94,9 @@ class WarehouseController extends Controller
      */
     public function edit(Warehouse $warehouse)
     {
+        if (Gate::denies('update-warehouse',$warehouse)){
+            abort(403);
+        }
         return view("warehouses.edit", [
             "warehouse"=>$warehouse
         ]);
@@ -98,6 +111,9 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, Warehouse $warehouse)
     {
+        if (Gate::denies('update-warehouse', $warehouse)){
+            abort(403);
+        }
         $request->validate($this->validationRules,$this->validationMessages);
 
         $warehouse->name=$request->name;
@@ -116,6 +132,9 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
+        if (Gate::denies('delete-warehouse', $warehouse)){
+            abort(403);
+        }
         $warehouse->delete();
         return redirect()->route('warehouses.index');
     }
